@@ -1,7 +1,9 @@
-import { Body, Controller, ForbiddenException, Get, HttpCode, HttpException, HttpStatus, Param, ParseIntPipe, Post, Res, UseFilters, UsePipes } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, HttpCode, HttpException, HttpStatus, Param, ParseIntPipe, Post, Res, SetMetadata, UseFilters, UseGuards, UsePipes } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Observable, of } from 'rxjs';
+import { Roles } from 'src/common/decorators/roles.decorator';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 import { JoiValidationPipe } from 'src/common/pipes/joi-validation.pipe';
 import { ValidationPipe } from 'src/common/pipes/validation.pipe';
 import { CatsService } from './cats.service';
@@ -10,11 +12,13 @@ import { Cat } from './interfaces/cat.interface';
 
 @Controller('cats')
 @UseFilters(HttpExceptionFilter)
+@UseGuards(RolesGuard)
 export class CatsController {
     constructor(private catService: CatsService) {}
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
+    @Roles('admin')
     //@UsePipes(new JoiValidationPipe(createCatSchema))
     async create(@Body(/*new ValidationPipe()*/) createCatDto: CreateCatDTO/*, @Res() res: Response*/): Promise<string> {
         //return 'This action adds a new cat';
