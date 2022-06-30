@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "command": "npm run start:debug",
+            "name": "Run npm run start:debug",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "type": "pwa-msedge",
+            "request": "launch",
+            "name": "Launch Edge against localhost",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}",
+            "timeout": 10000
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Run npm start & launch Edge",
+            "configurations": ["Run npm run start:debug", "Launch Edge against localhost"]
+        }
+    ]
+}
