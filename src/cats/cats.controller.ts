@@ -1,9 +1,10 @@
-import { Body, Controller, ForbiddenException, Get, HttpCode, HttpException, HttpStatus, Param, ParseIntPipe, Post, Res, SetMetadata, UseFilters, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, HttpCode, HttpException, HttpStatus, Param, ParseIntPipe, Post, Res, SetMetadata, UseFilters, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Observable, of } from 'rxjs';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
 import { JoiValidationPipe } from 'src/common/pipes/joi-validation.pipe';
 import { ValidationPipe } from 'src/common/pipes/validation.pipe';
 import { CatsService } from './cats.service';
@@ -13,6 +14,7 @@ import { Cat } from './interfaces/cat.interface';
 @Controller('cats')
 @UseFilters(HttpExceptionFilter)
 @UseGuards(RolesGuard)
+@UseInterceptors(LoggingInterceptor)
 export class CatsController {
     constructor(private catService: CatsService) {}
 
